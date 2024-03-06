@@ -1,1 +1,2 @@
 # B9IS109_CA
+This is a web application geared towards an integral part of businesses INVOICES. 'The Invoice' 1.0 helps solves this issue smoothly and efficiently from the moment you register on the platform. This web application functionality includes registration, signing in, creation, viewing, downloading and sending of invoices on the platform. The project is designed using flask as it base and the use of html, css, bootstarp and javascript for the frontend.
