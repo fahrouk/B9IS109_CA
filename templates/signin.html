@@ -1,0 +1,70 @@
+{% extends "index.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css')}}">
+    <title>The Invoice|Sign in</title>
+{% endblock %}
+    
+{% block body %}
+    <form action="/signin" method="post" id="signInForm" style="border:1px solid #ccc">
+        <div class="container">
+            <h1>Sign In</h1>
+            <p>Please sign_in into your account.</p>
+            <hr>
+
+            <div class="col-md-12">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail" name="email" required>
+                <div id="emailError" class="error"></div>
+            </div>
+            <br>
+            <div class="col-md-12">
+                <label for="inputPassword4" class="form-label">Password</label>
+                <input type="password" class="form-control" id="inputPassword" name="password" required>
+                <div id="passwordError" class="error"></div>
+            </div>
+            <br>
+            <div class="clearfix">
+                <button type="submit" class="signupbtn">Login</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block script %}
+<script>
+    document.getElementById('signInForm').addEventListener('submit',
+     function(event) {
+        // Prevent form submission
+        event.preventDefault();
+
+        // Validate email
+        var email = document.getElementById('inputEmail').value.trim();
+        var emailError = document.getElementById('emailError');
+        if (!validateEmail(email)) {
+            emailError.textContent = 'Invalid email format';
+            return;
+        } else {
+            emailError.textContent = '';
+        }
+
+        // Validate password
+        var password = document.getElementById('inputPassword').value.trim();
+        var passwordError = document.getElementById('passwordError');
+        if (password.length < 8) {
+            passwordError.textContent = 'Password must be at least 8 characters long';
+            return;
+        } else {
+            passwordError.textContent = '';
+        }
+
+        // If both email and password are valid, submit the form
+        this.submit();
+    });
+
+    // Function to validate email format
+    function validateEmail(email) {
+        var regex = /\S+@\S+\.\S+/;
+        return regex.test(email);
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "index.html" %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css')}}">
+<title>The Invoice| Welcome</title>
+{% endblock %}
+
+{% block navbar%}
+<li class="nav-item">
+    <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample" onclick="fetchInvoiceData()">My Files</a>
+</li>
+
+<li class="nav-item">
+    <a class="nav-link" href="/logout">Logout</a>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="container" id="surround">
+    <!-- Header -->
+    <div class="row mt-4">
+        <div class="col">
+            <h3 class="text-center"><strong>The Invoice</strong></h3>
+        </div>
+        <div class="col">
+            <p class="text-right"><strong>Company Name:{{ compname }}</strong></p>
+            <p class="text-right">Your Business Address: {{ address }}</p>
+            <p class="text-right">City: {{ city }}</p>
+            <p class="text-right">Country: {{ country }}</p>
+            <p class="text-right">zipcode: {{ zipcode }}</p>
+        </div>
+    </div>
+    <!-- /Header -->
+
+    <!-- Billing Information -->
+    <div class="row mt-4">
+        <div class="col-md">
+            <h5><strong>BILL TO:</strong></h5>
+            <label for="compname">Company Name:</label><br>
+            <input type="text" class="form-control" id="compname" name="compname" required><br>
+
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputEmail" name="email" required>
+            
+            <label for="addr2">Address:</label><br>
+            <input type="text" class="form-control" id="addr" name="address" required><br>
+
+            <label for="city">City:</label><br>
+            <input type="text" class="form-control" id="city" name="city" required><br>
+            
+            <label for="country">Country:</label><br>
+            <input type="text" class="form-control" id="count" name="country" required><br>
+            
+            <label for="postal">Zipcode:</label><br>
+            <input type="text" class="form-control" id="zip" name="zipcode" required><br>
+
+        </div>
+        <div class="col-md">
+            <h5 class="text-right"><strong>INVOICE #</strong></h5>
+            <p class="text-right" id="random-code"></p>
+            <label for="startdate"> Start Date:</label><br>
+            <input type="date" id="startdate" name="startdate" class="form-control" required><br>
+            <label for="duedate"> Due Date:</label><br>
+            <input type="date" id="duedate" name="duedate" class="form-control" required><br>
+        </div>
+    </div>
+    <!-- /Billing Information -->
+
+    <!-- Invoice Items -->
+    <div class="row mt-4">
+        <div class="col">
+            <table class="table table-bordered" id="myTable">
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>DESCRIPTION</th>
+                        <th>QUANTITY</th>
+                        <th>PRICE</th>
+                        <th>TAX</th>
+                        <th>AMOUNT</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    
+                </tbody>
+            </table>
+            <button type='button' id='btn' class='btn btn-primary'>Add More Fields</button>
+        </div>
+    </div>
+    <!-- /Invoice Items -->
+
+    <!-- Note and Total -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h5><strong>NOTE:</strong></h5>
+        </div>
+        <div class="col-md-6 text-right">
+            <h5><strong>TOTAL:</strong></h5>
+            <p><strong><span id="total">0.0</span></strong></p>
+        </div>
+    </div>
+    <!-- /Note and Total -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <!-- Button to capture screenshot and save -->
+            <button type="button" onclick="captureAndSave()" class="btn btn-primary">Capture and Save</button>
+        </div>
+    </div>
+
+    <!--offcanvas-->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Invoice Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body" id="invoiceDetails">
+            <!-- Content will be dynamically populated here -->
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+{% endblock %}

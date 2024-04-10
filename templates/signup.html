@@ -1,0 +1,63 @@
+{% extends "index.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signup.css')}}">
+    <title>The Invoice|Sign up</title>
+{% endblock %}
+    
+{% block body %}
+<div class="container">
+    <h1>Sign Up</h1>
+    <p>Please fill in this form to create an account.</p>
+    <form class="row g-3" action="/signup" method="post">
+        <div class="col-12">
+            <label for="Name" class="form-label">Company's Name</label>
+            <input type="text" class="form-control" id="Name" name="compname" required>
+        </div>
+        <div class="col-md-12">
+        <label for="inputEmail4" class="form-label">Email</label>
+        <input type="email" class="form-control" id="inputEmail" name="email" required>
+        </div>
+        <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">Password</label>
+        <input type="password" class="form-control" id="inputPassword" name="password" required>
+        </div>
+        <div class="col-md-6">
+            <label for="confirm_password">Confirm Password:</label>
+        <input type="password" id="confirm_password" class="form-control" name="confirm_password" required>
+        </div>
+        <div class="col-12">
+        <label for="inputAddress" class="form-label">Address</label>
+        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" name="addr1"required>
+        </div>
+        <div class="col-12">
+        <label for="inputAddress2" class="form-label">Address 2</label>
+        <input type="text" class="form-control" id="inputAddress2" placeholder="floor" name="addr2">
+        </div>
+        <div class="col-md-6">
+        <label for="inputCity" class="form-label">City*</label>
+        <input type="text" class="form-control" id="inputCity" name="city"required>
+        </div>
+        <div class="col-md-6">
+            <label for="inputCity" class="form-label">Country*</label>
+            <input type="text" class="form-control" id="inputCountry" name="country" required>
+        </div>       
+        <div class="col-md-2">
+        <label for="inputZip" class="form-label">Zip</label>
+        <input type="text" class="form-control" id="inputZip" name="zipcode" required>
+        </div>
+        <div class="col-12">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                Remember me
+                </label>
+            </div>
+        </div>
+        <div><p></p>By creating this account, you agrre to our <a href="#">Terms & Privacy</a></p></div>
+        <div class="col-12">
+        <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
