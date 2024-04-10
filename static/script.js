@@ -19,11 +19,11 @@ document.getElementById('btn').addEventListener('click', addFields);
         var row = tableBody.insertRow();
         row.innerHTML = `
             <td>${rowCount}</td>
-            <td><input type="text" name="description[]"></td>
-            <td><input type="number" name="quantity[]"></td>
-            <td><input type="number" name="price[]"></td>
-            <td><input type="number" name="tax[]"></td>
-            <td><input type="number" name="amount[]" readonly></td>
+            <td><input type="text" class="form-control" name="description[]"></td>
+            <td><input type="number" class="form-control" name="quantity[]"></td>
+            <td><input type="number" class="form-control" name="price[]"></td>
+            <td><input type="number" class="form-control" name="tax[]"></td>
+            <td><input type="number" class="form-control" name="amount[]"></td>
             <td><button type="button" onclick="deleteRow(this)" class="btn btn-danger">Delete</button></td>
         `;
     }
@@ -46,44 +46,57 @@ document.getElementById('btn').addEventListener('click', addFields);
 
 //capture and save data
 function captureAndSave() {
-    html2canvas(document.body).then(function(canvas) {
+    html2canvas(document.getElementById('surround')).then(function(canvas) {
         var imgData = canvas.toDataURL('image/png');
-        var pdf = new jsPDF();
-        pdf.addImage(imgData, 'PNG', 0, 0);
-        var pdfData = pdf.output('blob');
         
-        // Send the captured image and PDF data to the server
+        // Send the captured image data to the server
         var formData = new FormData();
         formData.append('imageData', imgData);
-        formData.append('pdfData', pdfData);
         
         var xhr = new XMLHttpRequest();
         xhr.open('POST', '/billing', true);
         xhr.onload = function() {
             if (xhr.status == 200) {
-                // Redirect or handle confirmation
+                // After successful creation, fetch updated invoice data
+                fetchInvoiceData();
+                // Show success message
+                alert("Image file has been created successfully");
             } else {
                 // Handle error
+                alert("Error creating image file");
             }
         };
         xhr.send(formData);
     });
 }
-// fetch invoice data
+
+
+
+// Fetch invoice data when the "My Files" link is clicked
 function fetchInvoiceData() {
     fetch('/myfiles')
         .then(response => response.json())
         .then(data => {
-            // Clear previous content
-            document.getElementById('invoiceDetails').innerHTML = '';
+            const invoiceDetails = document.getElementById('invoiceDetails');
+            invoiceDetails.innerHTML = '';
 
-            // Loop through the fetched data and create HTML elements to display it
             data.forEach(invoice => {
                 const invoiceDiv = document.createElement('div');
-                invoiceDiv.innerHTML = `<p>Invoice ID: ${invoice[0]}</p>`; // Adjust this according to your table structure
-                document.getElementById('invoiceDetails').appendChild(invoiceDiv);
+                invoiceDiv.innerHTML = `
+                    <p>Invoice ID: ${invoice.id}</p>
+                    <p>Company Name: ${invoice.companyName}</p>
+                    <!-- Add other fields as needed -->
+                `;
+                invoiceDetails.appendChild(invoiceDiv);
             });
-        })
-        .catch(error => console.error('Error fetching invoice data:', error));
-}
 
+            // Show the offcanvas after fetching data
+            var offcanvasElement = document.getElementById('offcanvasExample');
+            var offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+            offcanvas.show();
+        })
+        .catch(error => {
+            console.error('Error fetching invoice data:', error);
+            alert('Error fetching invoice data');
+        });
+}
